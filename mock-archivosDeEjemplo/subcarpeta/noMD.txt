@@ -1,0 +1,178 @@
+Archivo de prueba no extension '.md'
+
+const mdLinks = (path, options) => {
+    if (!isAbsoluteRoute(path)) {
+        path = relativeToAbsolute(path);
+    }
+
+    if (!isValidRoute(path)) {
+      // Error: La ruta no es válida
+        return;
+    }
+
+    if (isFileInRoute(path)) {
+        const content = readFile(path);
+        const links = getLinks(path, content);
+        if (options && options.validate) {
+        const linkPromises = links.map((link) => {
+            return validateLinks(link.href)
+            .then((response) => {
+                link.status = response.status;
+                link.ok = response.message === "OK" ? "ok" : "fail";
+                return link;
+            })
+            .catch((error) => {
+                link.status = error.status;
+                link.ok = "fail";
+                return link;
+            });
+        });
+        return Promise.all(linkPromises);
+        }
+        return links;
+    } else {
+        const files = readDirectory(path);
+        if (options && options.validate) {
+        const linkPromises = files.map((filePath) => {
+            const content = readFile(filePath);
+            const links = getLinks(filePath, content);
+            const linkPromises = links.map((link) => {
+            return validateLinks(link.href)
+                .then((response) => {
+                link.status = response.status;
+                link.ok = response.message === "OK" ? "ok" : "fail";
+                return link;
+                })
+                .catch((error) => {
+                link.status = error.status;
+                link.ok = "fail";
+                return link;
+                });
+            });
+            return Promise.all(linkPromises);
+        });
+        return Promise.all(linkPromises).then((results) => {
+            return results.flat();
+        });
+        }
+        return files.map((filePath) => {
+        return {
+            file: filePath,
+        };
+        });
+    }
+    };
+
+
+
+
+const mdLinks = require('../src/mdLinks');
+
+
+const route = 'mock-archivosDeEjemplo/mock-natis93.md';
+const options = { validate: true };
+
+describe('mdLinks', () => {
+    it('debería retornar una promesa que se resuelve con un array de objeto', (done) => {
+        
+        const result = mdLinks(route, options);
+
+        expect(result).resolves.toEqual([
+            {
+                href: 'https://github.com/natis93/DEV008-md-links.git',
+                text: 'GitHub-natis93',
+                file: 'C:\\Users\\LENOVO\\OneDrive\\Documentos\\proyectos laboratoria\DEV008-md-links\mock-archivosDeEjemplo\\mock-natis93.md',
+                status: 200,
+                ok: 'OK'
+            },
+            {
+                href: 'https://github.com/natis93/DEV008-md-links.git',
+                text: 'README MD LINKS',
+                file: 'C:\\Users\\LENOVO\\OneDrive\\Documentos\\proyectos laboratoria\DEV008-md-links\mock-archivosDeEjemplo\\mock-natis93.md',
+                status: 200,
+                ok: 'OK'
+            },
+            {
+                href: 'https://nodejs.dev/learn/the-package-json-guide',
+                text: 'Link roto desde Node',
+                file: 'C:\\Users\\LENOVO\\OneDrive\\Documentos\\proyectos laboratoria\DEV008-md-links\mock-archivosDeEjemplo\\mock-natis93.md',
+                status: 404,
+                ok: 'fail'
+            },
+            {
+                href: 'https://www.goooogle.com/',
+                text: 'Link mal escrito',
+                file: 'C:\\Users\\LENOVO\\OneDrive\\Documentos\\proyectos laboratoria\DEV008-md-links\mock-archivosDeEjemplo\\mock-natis93.md',
+                status: null,
+                ok: 'fail'
+            }
+        ]).then(done); // Llama a "done" cuando la promesa se haya resuelto o rechazado
+    });
+});
+
+
+*Test de readDirectory*
+
+describe('readDirectory', () => {
+    const readDirectory = (directoryRoute) => {
+            let files = [];
+      
+            const items = fs.readdirSync(directoryRoute);
+      
+            if (items.length === 0) {
+            throw new Error('No se encuentran archivos en el directorio');
+            }
+      
+            items.forEach((item) => {
+            const itemPath = path.join(directoryRoute, item);
+            const stats = fs.statSync(itemPath);
+      
+            if (stats.isDirectory()) {
+                try {
+                const subFiles = readDirectory(itemPath);
+                if (subFiles.length > 0) {
+                    files = files.concat(subFiles);
+                }
+                } catch (error) {
+                throw new Error(`Error al leer el Directorio: ${itemPath}`);
+                }
+            } else if (isMarkdown(itemPath)) {
+                files.push(itemPath);
+            }
+            });
+      
+            if (files.length === 0) {
+            throw new Error(`No se encontraron archivos Markdown en: ${directoryRoute}`);
+            }
+      
+            return files;
+        };
+      
+        it('debería devolver un arreglo con los archivos encontrados en el directorio', () => {
+            const directoryRoute = 'C:\\Users\\LENOVO\\OneDrive\\Documentos\\proyectos laboratoria\DEV008-md-links\\mock-archivosDeEjemplo';
+            const expectedFiles = [
+            'C:\\Users\\LENOVO\\OneDrive\\Documentos\\proyectos laboratoria\DEV008-md-links\mock-archivosDeEjemplo\\mock-natis93.md',
+            'C:\\Users\\LENOVO\\OneDrive\\Documentos\\proyectos laboratoria\DEV008-md-links\mock-archivosDeEjemplo\\Archivo-Vacio.md',
+            'C:\\Users\\LENOVO\\OneDrive\\Documentos\\proyectos laboratoria\DEV008-md-links\mock-archivosDeEjemplo\\algo.md'
+            ];
+    
+            const result = readDirectory(directoryRoute);
+            expect(result).toEqual(expectedFiles);
+        });
+    
+        it('debería lanzar un error si no se encuentran archivos en el directorio', () => {
+            const directoryRoute = 'C:\\Users\\LENOVO\\OneDrive\\Documentos\\proyectos laboratoria\DEV008-md-links\mock-archivosDeEjemplo\\carpeta-vacia';
+    
+            expect(() => {
+            readDirectory(directoryRoute);
+            }).toThrowError('No se encuentran archivos en el directorio');
+        });
+    
+        it('debería lanzar un error si no se encuentran archivos Markdown en el directorio', () => {
+            const directoryRoute = 'C:\\Users\\LENOVO\\OneDrive\\Documentos\\proyectos laboratoria\DEV008-md-links\mock-archivosDeEjemplo\\subcarpeta';
+    
+            expect(() => {
+            readDirectory(directoryRoute);
+            }).toThrow('No se encontraron archivos Markdown en: ' + directoryRoute);
+        });
+        });
