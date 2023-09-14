@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-09-14T22:25:38.007Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36" etag="PcrDfhlWvITNEjkWApPC" version="21.7.2" type="github">
+<mxfile host="app.diagrams.net" modified="2023-09-14T22:26:34.081Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36" etag="Ks9Y5fRhT5C7VhFCC05I" version="21.7.2" type="github">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
-    <mxGraphModel dx="3436" dy="942" grid="1" gridSize="20" guides="1" tooltips="1" connect="0" arrows="1" fold="1" page="0" pageScale="1" pageWidth="980" pageHeight="1390" background="none" math="0" shadow="1">
+    <mxGraphModel dx="4074" dy="1211" grid="1" gridSize="20" guides="1" tooltips="1" connect="0" arrows="1" fold="1" page="0" pageScale="1" pageWidth="980" pageHeight="1390" background="none" math="0" shadow="1">
       <root>
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
@@ -287,7 +287,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="c_P0hSTcN6kzpW9nxXxJ-149" value="&lt;span style=&quot;font-weight: 400;&quot;&gt;FIN&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+        <mxCell id="c_P0hSTcN6kzpW9nxXxJ-149" value="&lt;span style=&quot;font-weight: 400;&quot;&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;FIN&lt;/font&gt;&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#ffcd28;gradientColor=#ffa500;strokeColor=#d79b00;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="-270" y="460" width="80" height="40" as="geometry" />
         </mxCell>
         <mxCell id="OKykm5RTqsN0eD7takWw-0" value="&lt;font style=&quot;font-size: 19px;&quot;&gt;inicia&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#99FFFF;gradientColor=#7ea6e0;strokeColor=#6c8ebf;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
