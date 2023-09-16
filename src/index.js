@@ -3,7 +3,6 @@ const fs = require('fs'); //file system lee los archivos, fs para usar funciones
 const { log } = require('console');// funcion log de node.js, los mensajes se imprimirán en la consola estándar cuando se ejecute tu programa
 const axios = require('axios');
 
-
 const isAbsoluteRoute = (route) => path.isAbsolute(route);
 
 
@@ -22,7 +21,7 @@ const isValidRoute = (route) => {
   if (exists) {
     return true;
   } else {
-    log('La ruta No es válida');
+    log('La ruta No es valida');
     return false;
     
   }
@@ -64,7 +63,8 @@ const readDirectory = (directoryRoute) => {
         }
       } catch (error) {
         // Maneja el error si ocurre al leer el subdirectorio (carpeta dentro de carpeta)
-        console.error(`Error al leer el Directorio: ${itemPath}`, error);
+        console.error(`Error al leer el Directorio: ${itemPath}`);
+       console.error(error); // Imprime el error para obtener más información
       }
     } else if (isMarkdown(itemPath)) { // Verifica si el elemento es un archivo Markdown
       files.push(itemPath); // Agrega el archivo al arreglo de archivos encontrados
@@ -79,7 +79,7 @@ const readDirectory = (directoryRoute) => {
 };
 
 
-/* *********     funcion para extencion .md    ******************/
+/* *********     funcion para extencion .md     ******************/
 const isMarkdown = (route) => {
   const extension = path.extname(route); // Obtiene la extensión del archivo en la ruta especificada
   if (extension.toLowerCase() !== '.md') { // se compara si la extensión convertida a minúsculas es igual a ".md"
@@ -89,7 +89,6 @@ const isMarkdown = (route) => {
 
   return true;
 };
-
 
 /***********   Funcion para leer archivos   ********/
 const readFile = (route) =>{

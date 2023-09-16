@@ -13,8 +13,8 @@ const {
     const mdLinks = (path,options ={}) => {
 
     return new Promise((resolve,reject) =>{
-        if (!isAbsoluteRoute(path)){
-            path = relativeToAbsolute(path);// Convertir ruta relativa a absoluta
+        if (!isAbsoluteRoute(path)){ // Convertir ruta relativa a absoluta 
+            path = relativeToAbsolute(path);
         }
 
         if (!isValidRoute(path)){
@@ -30,7 +30,7 @@ const {
                 const links = getLinks(path, content); // Extraer los enlaces del contenido del archivo
                 
                 // if (options.validate) {
-                validateLinks(links, options.validate) // Validar los enlaces
+                validateLinks(links, options.validate) // Validar los enlaces encontrados
                 .then((validatedLinks) => resolve(validatedLinks))
                 .catch((error) => reject(error));
 
@@ -43,7 +43,7 @@ const {
        } else {
             const files = readDirectory(path); // Leer el directorio y obtener los archivos Markdown
         //console.log(files);
-            const promises = files.map((file) => {
+            const promises = files.map((file) => { //realizo mapeo de los archivos y creo promesas
                 return new Promise((resolve, reject) => {
 
                     readFile(file)
@@ -73,7 +73,7 @@ const {
 };
 
 module.exports = mdLinks;
-mdLinks('mock-archivosDeEjemplo\\mock-natis93.md',{ validate: false})
+mdLinks('mock-archivosDeEjemplo\\mock-natis93.md',{ validate: true})
  .then(links => {
     console.log(links);
  })
